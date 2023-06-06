@@ -1,0 +1,9 @@
+<app-activity-zone-canvas />
+<button (click)="addNewZone()">ADD ZONE</button>
+<div
+  (click)="removeActivityZone(activityZone)"
+  button
+  *ngFor="let activityZone of allActivityZones$ | async"
+>
+  <div>{{ activityZone.id }}</div>
+</div>
