@@ -1,6 +1,7 @@
 .activity-zone-canvas{
     background: url("../../../assets/active_zone_bg.jpg") no-repeat;
     background-size: 100%;
-    width: 100%;
+    width: 100% !important;
     aspect-ratio: 16/9;
+    position: relative;
 }

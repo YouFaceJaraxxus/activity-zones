@@ -10,6 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { activityZoneReducer } from 'src/state/activityZones/activityZone.reducers';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivityZoneFormComponent } from './ActivityZone/ActivityZoneForm/activity-zone-form.component';
+import { ActivityZoneRectangleComponent } from './ActivityZone/ActivityZoneRectangle/activity-zone-rectangle.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ActivityZoneFormComponent } from './ActivityZone/ActivityZoneForm/activ
     ActivityZoneComponent,
     HomeComponent,
     ActivityZoneCanvasComponent,
-    ActivityZoneFormComponent
+    ActivityZoneFormComponent,
+    ActivityZoneRectangleComponent
   ],
   imports: [
     BrowserModule,

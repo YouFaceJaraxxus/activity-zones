@@ -1,1 +1,3 @@
-<canvas class="activity-zone-canvas"></canvas>
+<canvas class="activity-zone-canvas" id="activity-zone-parent-canvas">
+    <app-activity-zone-rectangle *ngFor="let activityZone of allActivityZones$ | async" [activityZone]="activityZone" [parentCanvas]="canvas"></app-activity-zone-rectangle>
+</canvas>
