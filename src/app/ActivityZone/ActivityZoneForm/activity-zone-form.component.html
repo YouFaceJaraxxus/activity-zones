@@ -1,0 +1,110 @@
+<form
+  (ngSubmit)="addNewZone()"
+  [formGroup]="addActivityZoneForm"
+  novalidate
+  class="form"
+>
+  <div>
+    <label for="x">X</label>
+    <input
+      formControlName="x"
+      type="number"
+      class="form-control"
+      placeholder="Enter x coordinate"
+      name="x"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="
+        addActivityZoneForm.get('x')?.hasError('required') &&
+        addActivityZoneForm.get('x')?.touched
+      "
+    >
+      X coordinate is required
+    </div>
+  </div>
+
+  <div>
+    <label for="y">Y</label>
+    <input
+      formControlName="y"
+      type="number"
+      class="form-control"
+      placeholder="Enter y coordinate"
+      name="y"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="
+        addActivityZoneForm.get('y')?.hasError('required') &&
+        addActivityZoneForm.get('y')?.touched
+      "
+    >
+      Y coordinate is required
+    </div>
+  </div>
+
+  <div>
+    <label for="width">Width</label>
+    <input
+      formControlName="width"
+      type="number"
+      class="form-control"
+      placeholder="Enter width"
+      name="width"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="
+        addActivityZoneForm.get('width')?.hasError('required') &&
+        addActivityZoneForm.get('width')?.touched
+      "
+    >
+      Width is required
+    </div>
+  </div>
+
+  <div>
+    <label for="height">Height</label>
+    <input
+      formControlName="height"
+      type="number"
+      class="form-control"
+      placeholder="Enter height"
+      name="height"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="
+        addActivityZoneForm.get('height')?.hasError('required') &&
+        addActivityZoneForm.get('height')?.touched
+      "
+    >
+      Height is required
+    </div>
+  </div>
+
+  <div>
+    <label for="color">Color</label>
+    <input
+      formControlName="color"
+      type="text"
+      class="form-control"
+      placeholder="Enter color"
+      name="color"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="
+        addActivityZoneForm.get('color')?.hasError('required') &&
+        addActivityZoneForm.get('color')?.touched
+      "
+    >
+      Color is required
+    </div>
+  </div>
+
+  <button [disabled]="addActivityZoneForm.invalid" class="btn btn-default">
+    Add new zone
+  </button>
+</form>

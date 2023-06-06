@@ -18,17 +18,5 @@ export class ActivityZoneComponent {
     this.store.dispatch(removeActivityZone({ id: activityZone.id }));
   }
 
-  addNewZone() {
-    this.store.dispatch(
-      addActivityZone({
-        color: 'green',
-        height: 100,
-        width: 1000,
-        x: 10,
-        y: 10,
-      })
-    );
-  }
-
   constructor(private store: Store<AppState>) {}
 }
