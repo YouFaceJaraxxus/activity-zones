@@ -1,0 +1,1 @@
+export const CANVAS_RATIO = 16/9;
