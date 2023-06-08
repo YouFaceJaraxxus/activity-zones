@@ -21,14 +21,13 @@ export class ActivityZoneRectangleComponent implements OnInit {
   ngOnInit() {
     console.log("this.parentCanvas", this.parentCanvas);
 
-    // create a rectangle with angle=45
+    const {x, y, width, height, color} = this.activityZone;
     var rect = new fabric.Rect({
-      left: 100,
-      top: 100,
-      fill: 'red',
-      width: 20,
-      height: 20,
-      angle: 45,
+      left: x,
+      top: y,
+      fill: color,
+      width,
+      height,
     });
     console.log('canvas', this.parentCanvas);
 
