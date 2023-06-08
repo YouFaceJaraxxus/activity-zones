@@ -104,7 +104,7 @@
     </div>
   </div>
 
-  <button [disabled]="addActivityZoneForm.invalid" class="btn btn-default">
+  <button [disabled]="addActivityZoneForm.invalid || ((allActivityZones$ | async)?.length || 0) >= 4" class="btn btn-default">
     Add new zone
   </button>
 </form>

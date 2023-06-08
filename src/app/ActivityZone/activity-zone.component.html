@@ -1,7 +1,6 @@
 <app-activity-zone-canvas />
 <app-activity-zone-form />
 <div
-  (click)="removeActivityZone(activityZone)"
   button
   *ngFor="let activityZone of allActivityZones$ | async"
 >

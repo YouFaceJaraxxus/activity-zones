@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { addActivityZone } from 'src/state/activityZones/activityZone.actions';
+import { selectAllActivityZones } from 'src/state/activityZones/activityZone.selectors';
 import { AppState } from 'src/state/app.state';
 
 @Component({
@@ -11,6 +12,7 @@ import { AppState } from 'src/state/app.state';
 })
 export class ActivityZoneFormComponent {
   constructor(private store: Store<AppState>) {}
+  public allActivityZones$ = this.store.select(selectAllActivityZones);
 
   addActivityZoneForm = new FormGroup({
     x: new FormControl<number>(0, { nonNullable: true }),
