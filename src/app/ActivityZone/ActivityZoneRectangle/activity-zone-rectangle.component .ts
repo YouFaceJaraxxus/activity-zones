@@ -3,7 +3,7 @@ import { ActivityZone } from 'src/types/ActivityZone';
 import { fabric } from 'fabric';
 import { AppState } from 'src/state/app.state';
 import { Store } from '@ngrx/store';
-import { removeActivityZone } from 'src/state/activityZones/activityZone.actions';
+import { selectAllActivityZonesScales } from 'src/state/activityZones/activityZone.selectors';
 
 @Component({
   selector: 'app-activity-zone-rectangle',
@@ -14,6 +14,7 @@ export class ActivityZoneRectangleComponent implements OnInit, OnDestroy {
   @Input() activityZone!: ActivityZone;
   @Input() parentCanvas!: fabric.Canvas;
   zone!: fabric.Rect;
+  public scales$ = this.store.select(selectAllActivityZonesScales);
 
   ngOnInit() {
     const { x, y, width, height, color, id } = this.activityZone;
@@ -29,36 +30,18 @@ export class ActivityZoneRectangleComponent implements OnInit, OnDestroy {
       hasControls: true,
     });
 
-    const img = document.createElement('img');
-    img.src = '../../../assets/delete.png';
-
-    (fabric.Object.prototype.controls as any).deleteControl =
-      new fabric.Control({
-        x: 0.5,
-        y: -0.5,
-        offsetY: -16,
-        offsetX: 16,
-        cursorStyle: 'pointer',
-        mouseUpHandler: (_, transform) => {
-          this.store.dispatch(removeActivityZone({ id: transform.target.name || "" }));
-          this.parentCanvas.requestRenderAll();
-          return true;
-        },
-        render: (ctx, left, top, styleOverride, fabricObject) => {
-          const size = (this.zone.cornerSize || 10) * 2;
-          ctx.save();
-          ctx.translate(left, top);
-          ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle || 0));
-          ctx.drawImage(img, -size / 2, -size / 2, size, size);
-          ctx.restore();
-          styleOverride = {
-            borderRadius: '50%',
-          };
-        },
-      });
-
     this.parentCanvas.add(this.zone);
     this.parentCanvas.setActiveObject(this.zone);
+
+    this.scales$.subscribe(({ xScale, yScale }) => {
+
+      this.zone.set('left', x * xScale);
+      this.zone.set('top', y * yScale);
+      this.zone.set('width', width * xScale);
+      this.zone.set('height', height * yScale);
+
+      this.zone.setCoords();
+    });
   }
 
   ngOnDestroy() {

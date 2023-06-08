@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectAllActivityZones } from 'src/state/activityZones/activityZone.selectors';
+import {
+  selectAllActivityZones,
+  selectAllActivityZonesScales,
+} from 'src/state/activityZones/activityZone.selectors';
 import { AppState } from 'src/state/app.state';
 import { fabric } from 'fabric';
-import { CANVAS_RATIO } from 'src/constants/common';
-import { updateActivityZone } from 'src/state/activityZones/activityZone.actions';
+import { CANVAS_RATIO, HEIGHT_BASE, WIDTH_BASE } from 'src/constants/screen';
+import {
+  removeActivityZone,
+  updateActivityZone,
+  updateActivityZonesScale,
+} from 'src/state/activityZones/activityZone.actions';
 
 @Component({
   selector: 'app-activity-zone-canvas',
@@ -25,13 +32,45 @@ export class ActivityZoneCanvasComponent implements OnInit {
 
     this.canvas = new fabric.Canvas('activity-zone-canvas', {});
 
+    const img = document.createElement('img');
+    img.src = '../../../assets/delete.png';
+
+    (fabric.Object.prototype.controls as any).deleteControl =
+      new fabric.Control({
+        x: 0.5,
+        y: -0.5,
+        offsetY: -16,
+        offsetX: 16,
+        cursorStyle: 'pointer',
+        mouseUpHandler: (_, transform) => {
+          this.store.dispatch(
+            removeActivityZone({ id: transform.target.name || '' })
+          );
+          this.canvas.requestRenderAll();
+          return true;
+        },
+        render: (ctx, left, top, styleOverride, fabricObject) => {
+          const size = 20;
+          ctx.save();
+          ctx.translate(left, top);
+          ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle || 0));
+          ctx.drawImage(img, -size / 2, -size / 2, size, size);
+          ctx.restore();
+          styleOverride = {
+            borderRadius: '50%',
+          };
+        },
+      });
+
     this.canvas.on('object:modified', (event: fabric.IEvent<MouseEvent>) => {
       try {
+        const canvasWidth = canvasWrapper.clientWidth;
+        const canvasHeight = canvasWrapper.clientWidth;
         if (event.target) {
           const {
             name: id,
-            left: x,
-            top: y,
+            left: x = 0,
+            top: y = 0,
             width = 0,
             height = 0,
             scaleX = 0,
@@ -41,10 +80,10 @@ export class ActivityZoneCanvasComponent implements OnInit {
           this.store.dispatch(
             updateActivityZone({
               id,
-              x,
-              y,
-              width: width * scaleX,
-              height: height * scaleY,
+              x: x / (canvasWidth / WIDTH_BASE),
+              y: y / (canvasWidth / HEIGHT_BASE),
+              width: (width * scaleX) / (canvasWidth / WIDTH_BASE),
+              height: (height * scaleY) / (canvasHeight / HEIGHT_BASE),
             })
           );
         }
@@ -54,8 +93,18 @@ export class ActivityZoneCanvasComponent implements OnInit {
     });
 
     const resizeCanvas = () => {
-      this.canvas.setWidth(canvasWrapper.clientWidth);
-      this.canvas.setHeight(canvasWrapper.clientWidth / CANVAS_RATIO);
+      const canvasWidth = canvasWrapper.clientWidth;
+      const canvasHeight = canvasWrapper.clientWidth;
+      this.canvas.setWidth(canvasWidth);
+      this.canvas.setHeight(canvasHeight / CANVAS_RATIO);
+
+      this.store.dispatch(
+        updateActivityZonesScale({
+          xScale: canvasWidth / WIDTH_BASE,
+          yScale: canvasHeight / HEIGHT_BASE,
+        })
+      );
+
       this.canvas.renderAll();
     };
     window.addEventListener('resize', resizeCanvas, false);

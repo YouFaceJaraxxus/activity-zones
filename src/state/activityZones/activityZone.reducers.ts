@@ -3,11 +3,14 @@ import {
   addActivityZone,
   removeActivityZone,
   updateActivityZone,
+  updateActivityZonesScale,
 } from './activityZone.actions';
 import { ActivityZone } from 'src/types/ActivityZone';
 
 export interface ActivityZonesState {
   activityZones: ActivityZone[];
+  xScale: number;
+  yScale: number;
 }
 
 export const initialState: ActivityZonesState = {
@@ -21,6 +24,8 @@ export const initialState: ActivityZonesState = {
       y: 10,
     },
   ],
+  xScale: 1,
+  yScale: 1,
 };
 
 export const activityZoneReducer = createReducer(
@@ -39,11 +44,16 @@ export const activityZoneReducer = createReducer(
       if (az.id === activityZone.id) {
         return {
           ...az,
-          ...activityZone
+          ...activityZone,
         };
       }
       return az;
     }),
+  })),
+  on(updateActivityZonesScale, (state, { xScale, yScale }) => ({
+    ...state,
+    xScale,
+    yScale,
   })),
   on(removeActivityZone, (state, { id }) => ({
     ...state,
