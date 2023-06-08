@@ -15,6 +15,15 @@ export class ActivityZoneCanvasComponent implements OnInit {
 
   ngOnInit(){
     this.canvas = new fabric.Canvas("activity-zone-parent-canvas", {});
+
+    const resizeCanvas = () => {
+      this.canvas.setWidth(window.innerWidth);
+      this.canvas.setHeight(window.innerWidth * (9/16));
+      this.canvas.renderAll();
+    }
+    window.addEventListener("resize", resizeCanvas, false);
+
+    resizeCanvas();
   }
 
   constructor(private store: Store<AppState>) {}
