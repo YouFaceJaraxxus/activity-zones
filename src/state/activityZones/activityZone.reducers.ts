@@ -37,7 +37,10 @@ export const activityZoneReducer = createReducer(
     ...state,
     activityZones: state.activityZones.map((az) => {
       if (az.id === activityZone.id) {
-        return activityZone;
+        return {
+          ...az,
+          ...activityZone
+        };
       }
       return az;
     }),

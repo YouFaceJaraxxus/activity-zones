@@ -19,9 +19,8 @@ export class ActivityZoneRectangleComponent implements OnInit, OnDestroy {
   @Input() parentCanvas!: fabric.Canvas;
   zone!: fabric.Rect;
 
-
   ngOnInit() {
-    const {x, y, width, height, color, id} = this.activityZone;
+    const { x, y, width, height, color, id } = this.activityZone;
     this.zone = new fabric.Rect({
       left: x,
       top: y,
@@ -29,12 +28,15 @@ export class ActivityZoneRectangleComponent implements OnInit, OnDestroy {
       width,
       height,
       name: id,
+      lockRotation: true,
+      opacity: 0.5
     });
 
     this.parentCanvas.add(this.zone);
+    this.parentCanvas.setActiveObject(this.zone);
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.parentCanvas.remove(this.zone);
   }
 }

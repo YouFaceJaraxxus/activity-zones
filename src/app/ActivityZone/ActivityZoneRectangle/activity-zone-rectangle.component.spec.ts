@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActivityZoneRectangleComponent } from './activity-zone-rectangle.component';
+import { ActivityZoneRectangleComponent } from './activity-zone-rectangle.component ';
 
 describe('ActivityZoneRectangleComponent', () => {
   let component: ActivityZoneRectangleComponent;

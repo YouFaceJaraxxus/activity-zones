@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectAllActivityZones } from 'src/state/activityZones/activityZone.selectors';
 import { AppState } from 'src/state/app.state';
-import {fabric} from "fabric";
+import { fabric } from 'fabric';
 import { CANVAS_RATIO } from 'src/constants/common';
+import { updateActivityZone } from 'src/state/activityZones/activityZone.actions';
 
 @Component({
   selector: 'app-activity-zone-canvas',
@@ -13,41 +14,51 @@ import { CANVAS_RATIO } from 'src/constants/common';
 export class ActivityZoneCanvasComponent implements OnInit {
   public allActivityZones$ = this.store.select(selectAllActivityZones);
   public canvas!: fabric.Canvas;
-  
-  isObjectMoving: boolean = false;
-  activeObject!: fabric.Object | undefined;
 
-  onZoneMoving(event: fabric.IEvent<MouseEvent>){
-    this.isObjectMoving = true;
-    this.activeObject = event.target;
-  }
-
-  onZoneMouseUp(event: fabric.IEvent<MouseEvent>){
-    if (this.isObjectMoving){
-      this.isObjectMoving = false;
-      console.log("CAPTCHA!", event);
-      console.log("CAPTCHA!", this.activeObject?.get("name"));
-    } 
-  }
-
-  ngOnInit(){
-    const canvasWrapper = document.getElementById("activity-zone-canvas-wrapper");
-    if(!canvasWrapper){
+  ngOnInit() {
+    const canvasWrapper = document.getElementById(
+      'activity-zone-canvas-wrapper'
+    );
+    if (!canvasWrapper) {
       return;
     }
 
-    this.canvas = new fabric.Canvas("activity-zone-canvas", {});
+    this.canvas = new fabric.Canvas('activity-zone-canvas', {});
 
+    this.canvas.on('object:modified', (event: fabric.IEvent<MouseEvent>) => {
+      try {
+        if (event.target) {
+          const {
+            name: id,
+            left: x,
+            top: y,
+            width = 0,
+            height = 0,
+            scaleX = 0,
+            scaleY = 0,
+          } = event?.target;
 
-    this.canvas.on('object:moving', this.onZoneMoving);
-    this.canvas.on('mouse:up', this.onZoneMouseUp);
+          this.store.dispatch(
+            updateActivityZone({
+              id,
+              x,
+              y,
+              width: width * scaleX,
+              height: height * scaleY,
+            })
+          );
+        }
+      } catch (error) {
+        console.log('Error when updating shape', error);
+      }
+    });
 
     const resizeCanvas = () => {
       this.canvas.setWidth(canvasWrapper.clientWidth);
       this.canvas.setHeight(canvasWrapper.clientWidth / CANVAS_RATIO);
       this.canvas.renderAll();
-    }
-    window.addEventListener("resize", resizeCanvas, false);
+    };
+    window.addEventListener('resize', resizeCanvas, false);
 
     resizeCanvas();
   }
