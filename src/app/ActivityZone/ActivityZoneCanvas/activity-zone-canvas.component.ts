@@ -13,6 +13,22 @@ import { CANVAS_RATIO } from 'src/constants/common';
 export class ActivityZoneCanvasComponent implements OnInit {
   public allActivityZones$ = this.store.select(selectAllActivityZones);
   public canvas!: fabric.Canvas;
+  
+  isObjectMoving: boolean = false;
+  activeObject!: fabric.Object | undefined;
+
+  onZoneMoving(event: fabric.IEvent<MouseEvent>){
+    this.isObjectMoving = true;
+    this.activeObject = event.target;
+  }
+
+  onZoneMouseUp(event: fabric.IEvent<MouseEvent>){
+    if (this.isObjectMoving){
+      this.isObjectMoving = false;
+      console.log("CAPTCHA!", event);
+      console.log("CAPTCHA!", this.activeObject?.get("name"));
+    } 
+  }
 
   ngOnInit(){
     const canvasWrapper = document.getElementById("activity-zone-canvas-wrapper");
@@ -21,6 +37,10 @@ export class ActivityZoneCanvasComponent implements OnInit {
     }
 
     this.canvas = new fabric.Canvas("activity-zone-canvas", {});
+
+
+    this.canvas.on('object:moving', this.onZoneMoving);
+    this.canvas.on('mouse:up', this.onZoneMouseUp);
 
     const resizeCanvas = () => {
       this.canvas.setWidth(canvasWrapper.clientWidth);

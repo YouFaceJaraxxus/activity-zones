@@ -1,6 +1,7 @@
 import {
   Component,
   Input,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
@@ -13,24 +14,27 @@ import { fabric } from 'fabric';
   templateUrl: './activity-zone-rectangle.component.html',
   styleUrls: ['./activity-zone-rectangle.component.scss'],
 })
-export class ActivityZoneRectangleComponent implements OnInit {
+export class ActivityZoneRectangleComponent implements OnInit, OnDestroy {
   @Input() activityZone!: ActivityZone;
   @Input() parentCanvas!: fabric.Canvas;
+  zone!: fabric.Rect;
 
 
   ngOnInit() {
-    console.log("this.parentCanvas", this.parentCanvas);
-
-    const {x, y, width, height, color} = this.activityZone;
-    var rect = new fabric.Rect({
+    const {x, y, width, height, color, id} = this.activityZone;
+    this.zone = new fabric.Rect({
       left: x,
       top: y,
       fill: color,
       width,
       height,
+      name: id,
     });
-    console.log('canvas', this.parentCanvas);
 
-    this.parentCanvas.add(rect);
+    this.parentCanvas.add(this.zone);
+  }
+
+  ngOnDestroy(){
+    this.parentCanvas.remove(this.zone);
   }
 }

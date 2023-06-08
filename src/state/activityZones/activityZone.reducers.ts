@@ -14,7 +14,7 @@ export const initialState: ActivityZonesState = {
   activityZones: [
     {
       color: 'red',
-      id: '1',
+      id: String(Date.now()),
       height: 100,
       width: 200,
       x: 10,
