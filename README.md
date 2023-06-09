@@ -45,6 +45,7 @@ These are the most useful commands defined in `package.json`:
 * `npm run build` - runs the TypeScript compiler and asset copier once.
 * `npm run build:watch` - runs the TypeScript compiler and asset copier in "watch mode"; when changes occur to source files, they will be recompiled or copied into `dist/`.
 * `npm run test` - runs tests.
+* `npm run deploy` - builds the application and deploys the application to Firebase.
 
 ## Architecture
 
