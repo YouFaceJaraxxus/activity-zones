@@ -1,0 +1,8 @@
+.activity-zone-page {
+    width: 90%;
+    margin: auto;
+
+    @media only screen and (max-width: 600px) {
+        width: 100%
+    }
+}
