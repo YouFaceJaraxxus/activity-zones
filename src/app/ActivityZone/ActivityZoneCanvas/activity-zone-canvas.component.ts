@@ -17,7 +17,7 @@ import { ActivityZone } from 'src/types/ActivityZone';
 })
 export class ActivityZoneCanvasComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
-  
+
   @Input() activityZones!: ActivityZone[];
   public canvas!: fabric.Canvas;
 
@@ -29,7 +29,9 @@ export class ActivityZoneCanvasComponent implements OnInit {
       return;
     }
 
-    this.canvas = new fabric.Canvas('activity-zone-canvas', {});
+    this.canvas = new fabric.Canvas('activity-zone-canvas', {
+      selection: false,
+    });
 
     const img = document.createElement('img');
     img.src = '../../../assets/delete.png';
