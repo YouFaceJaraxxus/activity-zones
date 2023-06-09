@@ -1,9 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  selectAllActivityZones,
-  selectAllActivityZonesScales,
-} from 'src/state/activityZones/activityZone.selectors';
 import { AppState } from 'src/state/app.state';
 import { fabric } from 'fabric';
 import { CANVAS_RATIO, HEIGHT_BASE, WIDTH_BASE } from 'src/constants/screen';
@@ -12,6 +8,7 @@ import {
   updateActivityZone,
   updateActivityZonesScale,
 } from 'src/state/activityZones/activityZone.actions';
+import { ActivityZone } from 'src/types/ActivityZone';
 
 @Component({
   selector: 'app-activity-zone-canvas',
@@ -19,7 +16,7 @@ import {
   styleUrls: ['./activity-zone-canvas.component.scss'],
 })
 export class ActivityZoneCanvasComponent implements OnInit {
-  public allActivityZones$ = this.store.select(selectAllActivityZones);
+  @Input() activityZones!: ActivityZone[];
   public canvas!: fabric.Canvas;
 
   ngOnInit() {
