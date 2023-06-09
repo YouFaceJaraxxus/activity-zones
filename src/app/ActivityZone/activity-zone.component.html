@@ -1,11 +1,18 @@
 <div class="activity-zone-page">
-  <app-activity-zone-canvas [activityZones]="activityZones"/>
+  <app-activity-zone-canvas [activityZones]="activityZones" />
   <app-activity-zone-form />
-  <div
-    *ngFor="let activityZone of allActivityZones$ | async"
-  >
-    <div>{{ activityZone.id }}</div>
-  </div>
-  <button (click)="listActivityZones()">List Activity Zones</button>
-</div>
 
+  <div class="activity-zones-list">
+    <button mat-flat-button color="accent" (click)="listActivityZones()">
+      List Activity Zones
+    </button>
+    <ul>
+      <li
+        *ngFor="let activityZone of allActivityZones$ | async"
+        class="activityZoneListItem"
+      >
+        {{ activityZone.id }}
+      </li>
+    </ul>
+  </div>
+</div>

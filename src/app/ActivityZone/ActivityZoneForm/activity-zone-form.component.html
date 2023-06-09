@@ -2,9 +2,9 @@
   (ngSubmit)="addNewZone()"
   [formGroup]="addActivityZoneForm"
   novalidate
-  class="form"
+  class="add-zone-form"
 >
-  <div>
+  <div class="color-picker">
     <label for="color">Color</label>
     <input
       formControlName="color"
@@ -15,7 +15,15 @@
     />
   </div>
 
-  <button [disabled]="addActivityZoneForm.invalid || ((allActivityZones$ | async)?.length || 0) >= 4" class="btn btn-default">
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="
+      addActivityZoneForm.invalid ||
+      ((allActivityZones$ | async)?.length || 0) >= 4
+    "
+    class="btn btn-default"
+  >
     Add new zone
   </button>
 </form>
