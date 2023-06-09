@@ -24,13 +24,24 @@ export const initialState: ActivityZonesState = {
 export const activityZoneReducer = createReducer(
   // Supply the initial state
   initialState,
-  on(addActivityZone, (state, activityZone) => ({
-    ...state,
-    activityZones: [
-      ...state.activityZones,
-      { id: Date.now().toString(), ...activityZone },
-    ],
-  })),
+  on(addActivityZone, (state, activityZone) => {
+    const newState = {
+      ...state,
+      activityZones: [
+        ...state.activityZones,
+        { id: Date.now().toString(), ...activityZone },
+      ],
+    };
+
+    try {
+      const activityZonesJSON = JSON.stringify(newState);
+      localStorage.setItem(ACTIVITY_ZONES_LOCAL_STORAGE_KEY, activityZonesJSON);
+    } catch (error) {
+      console.log('error when serializing and saving activity zones', error);
+    }
+
+    return newState;
+  }),
   on(updateActivityZone, (state, activityZone) => {
     const newState = {
       ...state,
@@ -69,10 +80,21 @@ export const activityZoneReducer = createReducer(
       return state;
     }
   }),
-  on(removeActivityZone, (state, { id }) => ({
-    ...state,
-    activityZones: state.activityZones.filter((az) => az.id !== id),
-  })),
+  on(removeActivityZone, (state, { id }) => {
+    const newState = {
+      ...state,
+      activityZones: state.activityZones.filter((az) => az.id !== id),
+    };
+
+    try {
+      const activityZonesJSON = JSON.stringify(newState);
+      localStorage.setItem(ACTIVITY_ZONES_LOCAL_STORAGE_KEY, activityZonesJSON);
+    } catch (error) {
+      console.log('error when serializing and saving activity zones', error);
+    }
+
+    return newState;
+  }),
   on(updateActivityZonesScale, (state, { xScale, yScale }) => ({
     ...state,
     xScale,
