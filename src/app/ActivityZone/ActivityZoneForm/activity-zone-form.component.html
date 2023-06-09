@@ -13,15 +13,6 @@
       placeholder="Enter color"
       name="color"
     />
-    <div
-      class="alert alert-danger"
-      *ngIf="
-        addActivityZoneForm.get('color')?.hasError('required') &&
-        addActivityZoneForm.get('color')?.touched
-      "
-    >
-      Color is required
-    </div>
   </div>
 
   <button [disabled]="addActivityZoneForm.invalid || ((allActivityZones$ | async)?.length || 0) >= 4" class="btn btn-default">

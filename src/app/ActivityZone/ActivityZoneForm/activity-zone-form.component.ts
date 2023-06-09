@@ -11,7 +11,6 @@ import {
 import { addActivityZone } from 'src/state/activityZones/activityZone.actions';
 import {
   selectAllActivityZones,
-  selectAllActivityZonesScales,
 } from 'src/state/activityZones/activityZone.selectors';
 import { AppState } from 'src/state/app.state';
 
@@ -23,7 +22,6 @@ import { AppState } from 'src/state/app.state';
 export class ActivityZoneFormComponent {
   constructor(private store: Store<AppState>) {}
   public allActivityZones$ = this.store.select(selectAllActivityZones);
-  public $scales = this.store.select(selectAllActivityZonesScales);
 
   addActivityZoneForm = new FormGroup({
     color: new FormControl<string>(DEFAULT_COLOR, {
