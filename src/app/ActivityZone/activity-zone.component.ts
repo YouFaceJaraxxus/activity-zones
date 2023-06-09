@@ -11,6 +11,8 @@ import { ActivityZone } from 'src/types/ActivityZone';
   styleUrls: ['./activity-zone.component.scss'],
 })
 export class ActivityZoneComponent implements OnInit {
+  constructor(private store: Store<AppState>) {}
+  
   public allActivityZones$ = this.store.select(selectAllActivityZones);
   activityZones!: ActivityZone[];
 
@@ -18,7 +20,6 @@ export class ActivityZoneComponent implements OnInit {
     console.log('zones', this.activityZones);
   }
 
-  constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
     this.store.dispatch(loadActivityZones());

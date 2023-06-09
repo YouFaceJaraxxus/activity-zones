@@ -16,6 +16,8 @@ import { ActivityZone } from 'src/types/ActivityZone';
   styleUrls: ['./activity-zone-canvas.component.scss'],
 })
 export class ActivityZoneCanvasComponent implements OnInit {
+  constructor(private store: Store<AppState>) {}
+  
   @Input() activityZones!: ActivityZone[];
   public canvas!: fabric.Canvas;
 
@@ -108,6 +110,4 @@ export class ActivityZoneCanvasComponent implements OnInit {
 
     resizeCanvas();
   }
-
-  constructor(private store: Store<AppState>) {}
 }

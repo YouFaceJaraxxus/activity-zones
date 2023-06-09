@@ -9,6 +9,9 @@ import {
   DEFAULT_Y,
 } from 'src/constants/activityZone';
 import { addActivityZone } from 'src/state/activityZones/activityZone.actions';
+import {
+  selectAllActivityZones,
+} from 'src/state/activityZones/activityZone.selectors';
 import { AppState } from 'src/state/app.state';
 
 @Component({
@@ -18,6 +21,7 @@ import { AppState } from 'src/state/app.state';
 })
 export class ActivityZoneFormComponent {
   constructor(private store: Store<AppState>) {}
+  public allActivityZones$ = this.store.select(selectAllActivityZones);
 
   addActivityZoneForm = new FormGroup({
     color: new FormControl<string>(DEFAULT_COLOR, {
