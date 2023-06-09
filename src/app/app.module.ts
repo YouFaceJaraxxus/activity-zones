@@ -11,6 +11,12 @@ import { activityZoneReducer } from 'src/state/activityZones/activityZone.reduce
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivityZoneFormComponent } from './ActivityZone/ActivityZoneForm/activity-zone-form.component';
 import { ActivityZoneRectangleComponent } from './ActivityZone/ActivityZoneRectangle/activity-zone-rectangle.component ';
+import { NavbarComponent } from './Navbar/navbar.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import {MatMenuModule} from '@angular/material/menu';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -19,13 +25,19 @@ import { ActivityZoneRectangleComponent } from './ActivityZone/ActivityZoneRecta
     HomeComponent,
     ActivityZoneCanvasComponent,
     ActivityZoneFormComponent,
-    ActivityZoneRectangleComponent
+    ActivityZoneRectangleComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot({activityZones: activityZoneReducer}, {}),
     ReactiveFormsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatMenuModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

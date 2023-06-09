@@ -1,0 +1,15 @@
+<p>
+  <mat-toolbar color="primary">
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+    >
+      <mat-icon>menu</mat-icon>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">Home</button>
+        <button mat-menu-item routerLink="/activity-zone" routerLinkActive="active" ariaCurrentWhenActive="page">Activity Zone</button>
+      </mat-menu>
+    </button>
+    <span>My Application</span>
+  </mat-toolbar>
+</p>
