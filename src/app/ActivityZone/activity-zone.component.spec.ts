@@ -1,4 +1,3 @@
-import { AppState } from './../../state/app.state';
 import { ActivityZone } from './../../types/ActivityZone/index';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivityZoneComponent } from './activity-zone.component';
@@ -9,7 +8,7 @@ import {
   DEFAULT_X,
   DEFAULT_Y,
 } from 'src/constants/activityZone';
-import { Store, StoreModule, createReducer, on } from '@ngrx/store';
+import { StoreModule, createReducer, on } from '@ngrx/store';
 import { loadActivityZones } from 'src/state/activityZones/activityZone.actions';
 import { ActivityZonesState } from 'src/state/activityZones/activityZone.reducers';
 import { ActivityZoneCanvasComponent } from './ActivityZoneCanvas/activity-zone-canvas.component';
@@ -17,7 +16,7 @@ import { ActivityZoneFormComponent } from './ActivityZoneForm/activity-zone-form
 import { ActivityZoneRectangleComponent } from './ActivityZoneRectangle/activity-zone-rectangle.component ';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-export const initialState: ActivityZonesState = {
+const initialState: ActivityZonesState = {
   activityZones: [],
   xScale: 1,
   yScale: 1,
@@ -48,8 +47,17 @@ describe('ActivityZoneComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ActivityZoneComponent, ActivityZoneCanvasComponent, ActivityZoneFormComponent, ActivityZoneRectangleComponent],
-      imports: [StoreModule.forRoot({activityZones: mockActivityZoneReducer}, {}), FormsModule, ReactiveFormsModule],
+      declarations: [
+        ActivityZoneComponent,
+        ActivityZoneCanvasComponent,
+        ActivityZoneFormComponent,
+        ActivityZoneRectangleComponent,
+      ],
+      imports: [
+        StoreModule.forRoot({ activityZones: mockActivityZoneReducer }, {}),
+        FormsModule,
+        ReactiveFormsModule,
+      ],
     });
     fixture = TestBed.createComponent(ActivityZoneComponent);
     component = fixture.componentInstance;
@@ -60,18 +68,12 @@ describe('ActivityZoneComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('load activity zones', () => {
-    it('should create', () => {
-      expect(component).toBeTruthy();
-    });
+  it('should have loaded the proper zones', () => {
+    component.ngOnInit();
 
-    it('should have loaded the proper zones', () => {
-      component.ngOnInit();
-
-      component.allActivityZones$.subscribe((zones) => {
-        expect(zones.length).toBe(1);
-        expect(zones[0]).toBe(mockZone);
-      });
+    component.allActivityZones$.subscribe((zones) => {
+      expect(zones.length).toBe(1);
+      expect(zones[0]).toBe(mockZone);
     });
   });
 });
