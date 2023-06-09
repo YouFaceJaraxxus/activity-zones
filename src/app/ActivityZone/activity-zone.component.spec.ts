@@ -1,3 +1,4 @@
+import { AppState } from './../../state/app.state';
 import { ActivityZone } from './../../types/ActivityZone/index';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivityZoneComponent } from './activity-zone.component';
@@ -8,9 +9,13 @@ import {
   DEFAULT_X,
   DEFAULT_Y,
 } from 'src/constants/activityZone';
-import { StoreModule, createReducer, on } from '@ngrx/store';
+import { Store, StoreModule, createReducer, on } from '@ngrx/store';
 import { loadActivityZones } from 'src/state/activityZones/activityZone.actions';
 import { ActivityZonesState } from 'src/state/activityZones/activityZone.reducers';
+import { ActivityZoneCanvasComponent } from './ActivityZoneCanvas/activity-zone-canvas.component';
+import { ActivityZoneFormComponent } from './ActivityZoneForm/activity-zone-form.component';
+import { ActivityZoneRectangleComponent } from './ActivityZoneRectangle/activity-zone-rectangle.component ';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export const initialState: ActivityZonesState = {
   activityZones: [],
@@ -43,8 +48,8 @@ describe('ActivityZoneComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ActivityZoneComponent],
-      imports: [StoreModule.forRoot({activityZones: mockActivityZoneReducer}, {})],
+      declarations: [ActivityZoneComponent, ActivityZoneCanvasComponent, ActivityZoneFormComponent, ActivityZoneRectangleComponent],
+      imports: [StoreModule.forRoot({activityZones: mockActivityZoneReducer}, {}), FormsModule, ReactiveFormsModule],
     });
     fixture = TestBed.createComponent(ActivityZoneComponent);
     component = fixture.componentInstance;
