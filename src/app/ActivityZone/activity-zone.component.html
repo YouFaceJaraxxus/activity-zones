@@ -1,8 +1,8 @@
 <app-activity-zone-canvas />
 <app-activity-zone-form />
 <div
-  button
   *ngFor="let activityZone of allActivityZones$ | async"
 >
   <div>{{ activityZone.id }}</div>
 </div>
+<button (click)="listActivityZones()">List Activity Zones</button>
