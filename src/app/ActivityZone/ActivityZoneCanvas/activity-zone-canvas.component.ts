@@ -81,7 +81,7 @@ export class ActivityZoneCanvasComponent implements OnInit {
             updateActivityZone({
               id,
               x: x / (canvasWidth / WIDTH_BASE),
-              y: y / (canvasWidth / HEIGHT_BASE),
+              y: y / (canvasHeight / HEIGHT_BASE),
               width: (width * scaleX) / (canvasWidth / WIDTH_BASE),
               height: (height * scaleY) / (canvasHeight / HEIGHT_BASE),
             })
