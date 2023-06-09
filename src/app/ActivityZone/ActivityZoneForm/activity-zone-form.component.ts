@@ -1,8 +1,18 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import {
+  DEFAULT_COLOR,
+  DEFAULT_HEIGHT,
+  DEFAULT_WIDTH,
+  DEFAULT_X,
+  DEFAULT_Y,
+} from 'src/constants/activityZone';
 import { addActivityZone } from 'src/state/activityZones/activityZone.actions';
-import { selectAllActivityZones } from 'src/state/activityZones/activityZone.selectors';
+import {
+  selectAllActivityZones,
+  selectAllActivityZonesScales,
+} from 'src/state/activityZones/activityZone.selectors';
 import { AppState } from 'src/state/app.state';
 
 @Component({
@@ -13,19 +23,24 @@ import { AppState } from 'src/state/app.state';
 export class ActivityZoneFormComponent {
   constructor(private store: Store<AppState>) {}
   public allActivityZones$ = this.store.select(selectAllActivityZones);
+  public $scales = this.store.select(selectAllActivityZonesScales);
 
   addActivityZoneForm = new FormGroup({
-    x: new FormControl<number>(0, { nonNullable: true }),
-    y: new FormControl<number>(0, { nonNullable: true }),
-    color: new FormControl<string>("", { nonNullable: true }),
-    width: new FormControl<number>(0, { nonNullable: true }),
-    height: new FormControl<number>(0, { nonNullable: true }),
+    color: new FormControl<string>(DEFAULT_COLOR, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   addNewZone() {
     this.store.dispatch(
-      addActivityZone(this.addActivityZoneForm.getRawValue())
+      addActivityZone({
+        ...this.addActivityZoneForm.getRawValue(),
+        height: DEFAULT_HEIGHT,
+        width: DEFAULT_WIDTH,
+        x: DEFAULT_X,
+        y: DEFAULT_Y,
+      })
     );
-    this.addActivityZoneForm.reset();
   }
 }
