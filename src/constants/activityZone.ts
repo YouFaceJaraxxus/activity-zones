@@ -1,0 +1,1 @@
+export const ACTIVITY_ZONES_LOCAL_STORAGE_KEY = "activity-zones";

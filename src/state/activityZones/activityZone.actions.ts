@@ -14,6 +14,9 @@ export const removeActivityZone = createAction(
   '[ACTIVITY_ZONE] Remove Activity Zone',
   props<Pick<ActivityZone, 'id'>>()
 );
+export const loadActivityZones = createAction(
+  '[ACTIVITY_ZONE] Load Activity Zones'
+);
 export const updateActivityZonesScale = createAction(
   '[ACTIVITY_ZONE] Update Activity Zones Scale',
   props<Pick<ActivityZonesState, 'xScale' | 'yScale'>>()
